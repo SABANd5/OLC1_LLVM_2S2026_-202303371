@@ -21,12 +21,12 @@ indica evidencia verificable en el repositorio, no una calificación oficial.
 | Archivo .ll generado para ejemplo válido, §7, p. 16 | examples/llvm/enteros.ll, decimales.ll, mixto.ll | tests/test_codegen.sh regenera, compara y verifica LLVM | Cumplido. |
 | DOCUMENTACION.md con los apartados requeridos, §7, p. 16 | DOCUMENTACION.md | Revisión de apartados contra el PDF | Cumplido como documento; los resultados físicos se indican pendientes. |
 | Ensayo individual en PDF de máximo dos páginas, §7, p. 16 | No existe en los archivos versionados | git ls-files '*.pdf' no muestra ensayo | Pendiente: el estudiante debe redactarlo íntegramente sin IA e incorporarlo. |
-| Nombre de repositorio, §7, p. 15 | Directorio local correcto | Remoto configurado: OLC1_LLVM_2S2026_-202303371 | Pendiente: el remoto incluye un guion adicional antes del carné. |
-| Commits progresivos durante el período, §7, pp. 15–16 | Historial Git | Avances 562eb1d a 9a50537 visibles en fechas 26–27 octubre | Parcial: hay avances reales separados, pero se concentran cerca de la fecha indicada; la validez es decisión del curso. |
+| Nombre de repositorio, §7, p. 15 | OLC1_LLVM_2S2026_202303371 | Renombrado por el estudiante; origin corregido, ls-remote y fetch exitosos | Cumplido: el nombre y la URL corresponden al requisito. |
+| Commits progresivos durante el período, §7, pp. 15–16 | Historial Git | Avances reales desde 562eb1d, con fechas visibles 26–27 octubre | Parcial: los avances se concentran cerca de la fecha indicada; la validez es decisión del curso. |
 | Revisión de privacidad y archivos generados | .gitignore, DIAGNOSTICO_ENTORNO.md | Revisión de archivos versionados y búsqueda de patrones comunes de credenciales | Parcial: no se encontraron patrones comunes en el árbol actual; una ruta de perfil personal figura en un commit anterior y no se reescribió el historial. |
 
 El PDF advierte que un historial que no evidencie trabajo continuo puede limitar
-la nota a 3/6. El usuario indicó prórroga al 29 de octubre de 2026; el PDF
+la nota a 3/6. El estudiante confirma prórroga al 29 de octubre de 2026; el PDF
 entregado indica 23 de octubre. No se dispone aquí de la comunicación oficial de
 la prórroga. El runtime provisional no es un requisito de implementación del
 estudiante y no sustituye los archivos que proporcionará el docente.
