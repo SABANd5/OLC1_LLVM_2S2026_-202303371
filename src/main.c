@@ -3,6 +3,7 @@
 #include <string.h>
 #include "ast.h"
 #include "semantic.h"
+#include "codegen.h"
 #include "parser.tab.h"
 
 extern FILE *yyin;
@@ -14,11 +15,13 @@ const char *source_filename;
 int main(int argc, char **argv)
 {
     int parse_only = argc == 3 && strcmp(argv[1], "--parse-only") == 0;
-    if (argc != 2 && !parse_only) {
-        fprintf(stderr, "Uso: %s [--parse-only] archivo_fuente\n", argv[0]);
+    int emit = argc == 5 && strcmp(argv[1], "--emit-llvm") == 0 && strcmp(argv[3], "-o") == 0;
+    if (argc != 2 && !parse_only && !emit) {
+        fprintf(stderr, "Uso: %s [--parse-only] archivo_fuente\n"
+                        "     %s --emit-llvm archivo_fuente -o salida.ll\n", argv[0], argv[0]);
         return EXIT_FAILURE;
     }
-    source_filename = argv[parse_only ? 2 : 1];
+    source_filename = argv[(parse_only || emit) ? 2 : 1];
     yyin = fopen(source_filename, "rb");
     if (!yyin) { perror(source_filename); return EXIT_FAILURE; }
     FILE *input = yyin; /* yylex_destroy resets the global yyin. */
@@ -29,7 +32,9 @@ int main(int argc, char **argv)
     }
     if (!result && !lexical_error && ast_root) {
         if (!parse_only && semantic_analyze(ast_root, source_filename)) result = 1;
-        if (!result) ast_print(ast_root, stdout);
+        if (!result && emit) {
+            if (!codegen_write(ast_root, argv[4], input)) result = 1;
+        } else if (!result) ast_print(ast_root, stdout);
     }
     else result = 1;
     ast_free(ast_root);

@@ -1,0 +1,6 @@
+let a = 8;
+let b = (a + 4) / 2;
+let x = 0.1;
+let y = (x + 2.5) * 3.0;
+print b;
+print y;
