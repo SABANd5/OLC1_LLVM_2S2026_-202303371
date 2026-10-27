@@ -5,7 +5,7 @@ CPPFLAGS = -Isrc/ast -Isrc/semantic -Isrc/codegen -Ibuild
 CFLAGS = -std=c11 -Wall -Wextra -Wpedantic -g
 OBJECTS = build/main.o build/ast.o build/semantic.o build/codegen.o build/parser.tab.o build/lex.yy.o
 
-.PHONY: all test clean
+.PHONY: all test test-integration clean
 all: bin/compilador.exe
 
 build bin:
@@ -40,5 +40,9 @@ test: all build/semantic_types.exe build/runtime_host.exe
 	sh tests/test_semantic.sh
 	sh tests/test_codegen.sh
 	sh tests/test_avr.sh
+	sh tests/test_integral.sh
+test-integration: all build/runtime_host.exe
+	sh tests/test_avr.sh
+	sh tests/test_integral.sh
 clean:
 	rm -rf build bin

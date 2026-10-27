@@ -7,6 +7,7 @@ fi
 input=$1
 out=$2
 LLVM_BIN=${LLVM_BIN:-/clang64/bin}
+AVR_RUNTIME_DIR=${AVR_RUNTIME_DIR:-runtime/avr}
 PATH="$LLVM_BIN:$PATH"
 export PATH
 
@@ -24,11 +25,11 @@ opt -passes=verify -disable-output "$tmp/program.bc"
 llc -mtriple=avr -mcpu=atmega2560 -filetype=asm "$tmp/program.bc" -o "$tmp/program.S"
 avr-gcc -mmcu=atmega2560 -mdouble=64 -c "$tmp/program.S" -o "$tmp/program.o"
 avr-gcc -mmcu=atmega2560 -mdouble=64 -DF_CPU=16000000UL -std=c11 -Wall -Wextra -Wpedantic -Os \
-    -Iruntime/avr -c runtime/avr/format.c -o "$tmp/format.o"
+    -I"$AVR_RUNTIME_DIR" -c "$AVR_RUNTIME_DIR/format.c" -o "$tmp/format.o"
 avr-gcc -mmcu=atmega2560 -mdouble=64 -DF_CPU=16000000UL -std=c11 -Wall -Wextra -Wpedantic -Os \
-    -Iruntime/avr -c runtime/avr/uart.c -o "$tmp/uart.o"
+    -I"$AVR_RUNTIME_DIR" -c "$AVR_RUNTIME_DIR/uart.c" -o "$tmp/uart.o"
 avr-gcc -mmcu=atmega2560 -mdouble=64 -DF_CPU=16000000UL -std=c11 -Wall -Wextra -Wpedantic -Os \
-    -Iruntime/avr -c runtime/avr/main.c -o "$tmp/main.o"
+    -I"$AVR_RUNTIME_DIR" -c "$AVR_RUNTIME_DIR/main.c" -o "$tmp/main.o"
 avr-gcc -mmcu=atmega2560 -mdouble=64 "$tmp/program.o" "$tmp/format.o" \
     "$tmp/uart.o" "$tmp/main.o" -o "$tmp/firmware.elf"
 avr-nm --undefined-only "$tmp/firmware.elf" > "$tmp/undefined.txt"

@@ -34,7 +34,10 @@ int main(int argc, char **argv)
         if (!parse_only && semantic_analyze(ast_root, source_filename)) result = 1;
         if (!result && emit) {
             if (!codegen_write(ast_root, argv[4], input)) result = 1;
-        } else if (!result) ast_print(ast_root, stdout);
+        } else if (!result) {
+            ast_print(ast_root, stdout);
+            if (fflush(stdout) != 0) { perror("Error al escribir AST"); result = 1; }
+        }
     }
     else result = 1;
     ast_free(ast_root);

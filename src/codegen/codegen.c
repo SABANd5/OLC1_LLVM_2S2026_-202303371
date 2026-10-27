@@ -129,20 +129,30 @@ static int emit_module(Context *ctx, const AstNode *program)
 static int same_file(FILE *input, const char *output)
 {
     HANDLE in = (HANDLE)_get_osfhandle(_fileno(input));
+    BY_HANDLE_FILE_INFORMATION a, b;
+    if (in == INVALID_HANDLE_VALUE || !GetFileInformationByHandle(in, &a)) return -1;
     HANDLE out = CreateFileA(output, FILE_READ_ATTRIBUTES,
         FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, 0, NULL);
-    if (out == INVALID_HANDLE_VALUE) return 0;
-    BY_HANDLE_FILE_INFORMATION a, b;
-    int same = GetFileInformationByHandle(in, &a) && GetFileInformationByHandle(out, &b) &&
+    if (out == INVALID_HANDLE_VALUE) {
+        DWORD error = GetLastError();
+        return (error == ERROR_FILE_NOT_FOUND || error == ERROR_PATH_NOT_FOUND) ? 0 : -1;
+    }
+    int ok = GetFileInformationByHandle(out, &b);
+    int same = ok &&
         a.dwVolumeSerialNumber == b.dwVolumeSerialNumber &&
         a.nFileIndexHigh == b.nFileIndexHigh && a.nFileIndexLow == b.nFileIndexLow;
     CloseHandle(out);
-    return same;
+    return ok ? same : -1;
 }
 
 int codegen_write(const AstNode *program, const char *output, FILE *input)
 {
-    if (same_file(input, output)) {
+    int identity = same_file(input, output);
+    if (identity < 0) {
+        fprintf(stderr, "Error de generacion LLVM: no se pudo verificar la identidad de los archivos\n");
+        return 0;
+    }
+    if (identity) {
         fprintf(stderr, "Error de generacion LLVM: salida y entrada son el mismo archivo\n");
         return 0;
     }
