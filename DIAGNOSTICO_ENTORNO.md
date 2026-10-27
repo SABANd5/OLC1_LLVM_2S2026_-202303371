@@ -4,9 +4,9 @@ Fecha: 26 de octubre de 2026. Carné 202303371: `202303371 mod 3 = 0`, correspon
 
 ## Referencias
 
-- `C:\Users\SabanD\Downloads\Tarea_OLC1_LLVM_2S2026.pdf`, 17 páginas: enunciado oficial. Indica entrega el **23 de octubre de 2026**, en páginas 1 y 16; el usuario indicó 29 de octubre. Confirmar con el curso si existe una prórroga; no se dispone de evidencia de ella.
-- `C:\Users\SabanD\Downloads\Comandos.md`: guía del auxiliar para UCRT64, CLANG64 y flujo AVR; sus rutas y puerto son de otra computadora.
-- `C:\Users\SabanD\Downloads\Minibot.zip`: inspeccionado sin modificar ni copiar sus fuentes. Contiene `src/{lexer,parser,ast,semantic,codegen}`, ejemplos, pruebas, runtimes, targets y artefactos generados.
+- `%USERPROFILE%\Downloads\Tarea_OLC1_LLVM_2S2026.pdf`, 17 páginas: enunciado oficial. Indica entrega el **23 de octubre de 2026**, en páginas 1 y 16; el usuario indicó 29 de octubre. Confirmar con el curso si existe una prórroga; no se dispone de evidencia de ella.
+- `%USERPROFILE%\Downloads\Comandos.md`: guía del auxiliar para UCRT64, CLANG64 y flujo AVR; sus rutas y puerto son de otra computadora.
+- `%USERPROFILE%\Downloads\Minibot.zip`: inspeccionado sin modificar ni copiar sus fuentes. Contiene `src/{lexer,parser,ast,semantic,codegen}`, ejemplos, pruebas, runtimes, targets y artefactos generados.
 
 ## Requisitos oficiales principales
 
