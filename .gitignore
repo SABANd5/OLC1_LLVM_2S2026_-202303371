@@ -1,0 +1,11 @@
+/build/
+/bin/
+*.o
+*.obj
+*.exe
+*.bc
+*.elf
+*.hex
+*.s
+*.S
+*.tmp
