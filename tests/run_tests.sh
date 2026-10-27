@@ -9,7 +9,7 @@ valid() {
     name=$1 input=$2 expected=$3
     printf '%s\n' "$input" > "$dir/input.olc"
     printf '%s\n' "$expected" > "$dir/expected.txt"
-    if ./bin/compilador.exe "$dir/input.olc" > "$dir/actual.txt" 2> "$dir/error.txt" &&
+    if ./bin/compilador.exe --parse-only "$dir/input.olc" > "$dir/actual.txt" 2> "$dir/error.txt" &&
        tr -d '\r' < "$dir/actual.txt" > "$dir/normalized.txt" &&
        diff -u "$dir/expected.txt" "$dir/normalized.txt" && [ ! -s "$dir/error.txt" ]; then
         echo "OK: $name"; passed=$((passed + 1))
@@ -21,7 +21,7 @@ valid() {
 invalid() {
     name=$1 input=$2 pattern=$3
     printf '%s' "$input" > "$dir/input.olc"
-    if ./bin/compilador.exe "$dir/input.olc" > "$dir/actual.txt" 2> "$dir/error.txt"; then
+    if ./bin/compilador.exe --parse-only "$dir/input.olc" > "$dir/actual.txt" 2> "$dir/error.txt"; then
         echo "FALLO: $name (se acepto entrada invalida)"; failed=$((failed + 1))
     elif [ ! -s "$dir/actual.txt" ] && grep -E "$pattern" "$dir/error.txt" >/dev/null; then
         echo "OK: $name"; passed=$((passed + 1))
@@ -82,7 +82,7 @@ invalid 'falta punto y coma' 'let x = 1' ':1:10: error sintactico:'
 invalid 'parentesis sin cerrar' 'print (1 + 2;' 'error sintactico:'
 invalid 'declaracion incompleta' 'let x = ;' 'error sintactico:'
 invalid 'archivo vacio' '' ':1:1: error sintactico:'
-if ./bin/compilador.exe "$dir/archivo-inexistente.olc" > "$dir/actual.txt" 2> "$dir/error.txt"; then
+if ./bin/compilador.exe --parse-only "$dir/archivo-inexistente.olc" > "$dir/actual.txt" 2> "$dir/error.txt"; then
     echo 'FALLO: archivo inexistente (aceptado)'; failed=$((failed + 1))
 elif [ ! -s "$dir/actual.txt" ] && grep -F 'archivo-inexistente.olc' "$dir/error.txt" >/dev/null; then
     echo 'OK: archivo inexistente'; passed=$((passed + 1))

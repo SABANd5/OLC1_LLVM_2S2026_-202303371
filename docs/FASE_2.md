@@ -56,7 +56,8 @@ siguiente instrucción. El programa contiene una lista de instrucciones. `let`
 guarda nombre y expresión; `print`, una expresión; la operación binaria, operador
 y dos operandos; enteros, decimales e identificadores guardan su texto original.
 Las expresiones entre paréntesis no crean un nodo adicional: modifican la
-agrupación del árbol y la ubicación del nodo agrupado. La impresión muestra una
+agrupación del árbol. Desde la Fase 3 se conserva la ubicación de los tokens
+interiores para que los diagnósticos señalen el identificador u operador. La impresión muestra una
 línea por nodo con indentación que expresa la jerarquía.
 
 Los constructores toman propiedad de sus argumentos. Los destructores de Bison

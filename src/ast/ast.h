@@ -2,6 +2,7 @@
 #define AST_H
 
 #include <stdio.h>
+#include <stdint.h>
 
 typedef struct {
     int first_line, first_column, last_line, last_column;
@@ -12,16 +13,20 @@ typedef enum {
     AST_INTEGER, AST_DECIMAL, AST_IDENTIFIER
 } AstKind;
 
+typedef enum { TYPE_UNKNOWN, TYPE_ERROR, TYPE_INTEGER, TYPE_DECIMAL } SemanticType;
+
 typedef struct AstNode AstNode;
 struct AstNode {
     AstKind kind;
     SourceLocation location;
+    SemanticType type; /* Set by semantic analysis; unknown before analysis. */
+    union { int32_t integer; double decimal; } literal_value;
     AstNode *next; /* Next statement; NULL for expressions. */
     union {
         struct { AstNode *statements; } program;
-        struct { char *name; AstNode *value; } declaration;
+        struct { char *name; SourceLocation name_location; AstNode *value; } declaration;
         struct { AstNode *value; } print;
-        struct { char op; AstNode *left, *right; } binary;
+        struct { char op; SourceLocation op_location; AstNode *left, *right; } binary;
         char *text; /* Identifier or original literal spelling. */
     } as;
 };

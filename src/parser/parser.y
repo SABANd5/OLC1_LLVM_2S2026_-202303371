@@ -27,18 +27,18 @@ AstNode *ast_root = NULL;
 programa: instrucciones { ast_root = ast_program($1, LOC(@$)); $$ = NULL; } ;
 instrucciones: instrucciones instruccion { $$ = ast_append($1, $2); }
              | instruccion { $$ = $1; } ;
-instruccion: LET ID '=' expresion ';' { $$ = ast_let($2, $4, LOC(@$)); }
+instruccion: LET ID '=' expresion ';' { $$ = ast_let($2, $4, LOC(@$)); $$->as.declaration.name_location = LOC(@2); }
            | PRINT expresion ';' { $$ = ast_print_statement($2, LOC(@$)); } ;
-expresion: expresion '+' termino { $$ = ast_binary('+', $1, $3, LOC(@$)); }
-         | expresion '-' termino { $$ = ast_binary('-', $1, $3, LOC(@$)); }
+expresion: expresion '+' termino { $$ = ast_binary('+', $1, $3, LOC(@$)); $$->as.binary.op_location = LOC(@2); }
+         | expresion '-' termino { $$ = ast_binary('-', $1, $3, LOC(@$)); $$->as.binary.op_location = LOC(@2); }
          | termino { $$ = $1; } ;
-termino: termino '*' factor { $$ = ast_binary('*', $1, $3, LOC(@$)); }
-       | termino '/' factor { $$ = ast_binary('/', $1, $3, LOC(@$)); }
+termino: termino '*' factor { $$ = ast_binary('*', $1, $3, LOC(@$)); $$->as.binary.op_location = LOC(@2); }
+       | termino '/' factor { $$ = ast_binary('/', $1, $3, LOC(@$)); $$->as.binary.op_location = LOC(@2); }
        | factor { $$ = $1; } ;
 factor: ENTERO { $$ = ast_text(AST_INTEGER, $1, LOC(@$)); }
       | DECIMAL { $$ = ast_text(AST_DECIMAL, $1, LOC(@$)); }
       | ID { $$ = ast_text(AST_IDENTIFIER, $1, LOC(@$)); }
-      | '(' expresion ')' { $$ = $2; $$->location = LOC(@$); } ;
+      | '(' expresion ')' { $$ = $2; } ;
 %%
 void yyerror(const char *message)
 {
