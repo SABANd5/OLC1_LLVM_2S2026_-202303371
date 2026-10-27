@@ -33,9 +33,12 @@ bin/compilador.exe: $(OBJECTS) | bin
 	$(CC) $(CFLAGS) $(OBJECTS) -o $@
 build/semantic_types.exe: tests/semantic_types.c build/ast.o build/semantic.o
 	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
-test: all build/semantic_types.exe
+build/runtime_host.exe: tests/test_runtime_host.c runtime/avr/format.c runtime/avr/runtime.h | build
+	$(CC) $(CFLAGS) -Iruntime/avr tests/test_runtime_host.c runtime/avr/format.c -o $@
+test: all build/semantic_types.exe build/runtime_host.exe
 	sh tests/run_tests.sh
 	sh tests/test_semantic.sh
 	sh tests/test_codegen.sh
+	sh tests/test_avr.sh
 clean:
 	rm -rf build bin
