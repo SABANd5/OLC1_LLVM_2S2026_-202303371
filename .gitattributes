@@ -1,0 +1,5 @@
+# MSYS2 tools expect these source files and scripts to retain LF on Windows.
+Makefile text eol=lf
+*.sh text eol=lf
+*.l text eol=lf
+*.y text eol=lf
