@@ -101,8 +101,10 @@ static int expression(Context *ctx, const AstNode *node, Operand *out)
 static int emit_module(Context *ctx, const AstNode *program)
 {
     if (!program || program->kind != AST_PROGRAM) return fail(ctx, "programa invalido");
-    fputs("declare void @print_i32(i32)\ndeclare void @print_f64(double)\n\n"
-          "define void @olc_program() {\nentry:\n", ctx->out);
+    fputs("declare void @print_i32(i32)\ndeclare void @print_f64(double)\n\n", ctx->out);
+    for (const AstNode *s = program->as.program.statements; s; s = s->next)
+        if (s->kind == AST_LED) { fputs("declare void @olc_led13_on()\n\n", ctx->out); break; }
+    fputs("define void @olc_program() {\nentry:\n", ctx->out);
     for (const AstNode *s = program->as.program.statements; s; s = s->next) {
         Operand value;
         if (s->kind == AST_LET) {
@@ -120,6 +122,9 @@ static int emit_module(Context *ctx, const AstNode *program)
                     value.type == TYPE_INTEGER ? "print_i32" : "print_f64", type);
             print_operand(ctx->out, value);
             fputs(")\n", ctx->out);
+        } else if (s->kind == AST_LED) {
+            if (!s->as.led.validated) return fail(ctx, "instruccion LED no validada");
+            fputs("  call void @olc_led13_on()\n", ctx->out);
         } else return fail(ctx, "instruccion desconocida");
     }
     fputs("  ret void\n}\n", ctx->out);

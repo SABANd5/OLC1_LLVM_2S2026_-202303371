@@ -19,7 +19,7 @@ else
 fi
 ~~~
 
-Explique cómo Flex distingue let y print de los identificadores y cómo los
+Explique cómo Flex distingue let, print, led y on de los identificadores y cómo los
 niveles expresion, termino y factor establecen precedencia. La generación de
 Bison falla si hay conflictos shift/reduce o reduce/reduce.
 
@@ -79,3 +79,20 @@ firmas probadas, pero que esto no valida por sí solo la ABI del runtime oficial
 El runtime incluido configura USART0 y proporciona impresiones provisionales;
 el docente proporcionará los archivos y la placa. No se ha observado una salida
 serial física ni se ha probado el firmware en simulador.
+
+## 5. Demostración preparada del LED integrado
+
+~~~sh
+cat examples/hardware/led_mega.olc
+./bin/compilador.exe examples/hardware/led_mega.olc
+sh scripts/build_avr.sh examples/hardware/led_mega.olc build/avr/led_demo
+cat build/avr/led_demo/program.ll
+avr-nm --undefined-only build/avr/led_demo/firmware.elf
+avr-objdump -d build/avr/led_demo/firmware.elf | grep -A 4 '<olc_led13_on>:'
+~~~
+
+El AST muestra Led 13 on, el IR llama a olc_led13_on y el ELF no tiene
+símbolos indefinidos. La función compilada establece DDRB7 y PORTB7; esto no
+demuestra que el LED físico se haya encendido. Para la carga consulte la
+[guía de Fase 9](FASE_9_LED_ARDUINO.md); se requiere placa y puerto identificados
+y confirmación del estudiante antes de cargar.

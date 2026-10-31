@@ -12,6 +12,8 @@ Solicitar al docente:
 - Procedimiento y herramienta de carga, identificación del puerto y herramienta
   para abrir el monitor serial.
 - Disponibilidad de Arduino Mega 2560 o de un simulador y pasos de prueba.
+- Confirmación de la instrucción adicional led 13 on y de la sustitución de la
+  demostración anterior, indicadas por el estudiante; no están en el PDF original.
 - Conservar la comunicación oficial de la prórroga, si está disponible: el
   estudiante confirma el 29 de octubre y el PDF original indica el 23.
 

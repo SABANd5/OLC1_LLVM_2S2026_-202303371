@@ -10,7 +10,7 @@ typedef struct {
 
 typedef enum {
     AST_PROGRAM, AST_LET, AST_PRINT, AST_BINARY,
-    AST_INTEGER, AST_DECIMAL, AST_IDENTIFIER
+    AST_INTEGER, AST_DECIMAL, AST_IDENTIFIER, AST_LED
 } AstKind;
 
 typedef enum { TYPE_UNKNOWN, TYPE_ERROR, TYPE_INTEGER, TYPE_DECIMAL } SemanticType;
@@ -27,6 +27,7 @@ struct AstNode {
         struct { char *name; SourceLocation name_location; AstNode *value; } declaration;
         struct { AstNode *value; } print;
         struct { char op; SourceLocation op_location; AstNode *left, *right; } binary;
+        struct { char *pin; SourceLocation pin_location; int on, validated; } led;
         char *text; /* Identifier or original literal spelling. */
     } as;
 };
@@ -35,6 +36,7 @@ struct AstNode {
 AstNode *ast_program(AstNode *statements, SourceLocation location);
 AstNode *ast_let(char *name, AstNode *value, SourceLocation location);
 AstNode *ast_print_statement(AstNode *value, SourceLocation location);
+AstNode *ast_led_on(char *pin, SourceLocation pin_location, SourceLocation location);
 AstNode *ast_binary(char op, AstNode *left, AstNode *right, SourceLocation location);
 AstNode *ast_text(AstKind kind, char *text, SourceLocation location);
 AstNode *ast_append(AstNode *head, AstNode *statement);

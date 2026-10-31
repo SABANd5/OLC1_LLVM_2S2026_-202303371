@@ -41,8 +41,10 @@ test: all build/semantic_types.exe build/runtime_host.exe
 	sh tests/test_codegen.sh
 	sh tests/test_avr.sh
 	sh tests/test_integral.sh
+	sh tests/test_led.sh
 test-integration: all build/runtime_host.exe
 	sh tests/test_avr.sh
 	sh tests/test_integral.sh
+	sh tests/test_led.sh
 clean:
 	rm -rf build bin

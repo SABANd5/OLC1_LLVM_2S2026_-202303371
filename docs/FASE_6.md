@@ -19,7 +19,7 @@ El lenguaje no se amplió.
 
 El script conserva el runtime provisional por defecto. Puede seleccionarse otro
 directorio que contenga format.c, uart.c, main.c y runtime.h mediante
-AVR_RUNTIME_DIR. Esto no adapta automáticamente el runtime docente ni demuestra
+AVR_RUNTIME_DIR. Desde la Fase 9 también se requiere led.c. Esto no adapta automáticamente el runtime docente ni demuestra
 compatibilidad con él.
 
 ## División por cero y límites

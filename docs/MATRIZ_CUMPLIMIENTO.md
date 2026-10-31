@@ -7,6 +7,7 @@ indica evidencia verificable en el repositorio, no una calificación oficial.
 |---|---|---|---|
 | Compilador C, Flex y Bison, §4.3 y 4.9, pp. 6 y 13 | src/main.c, src/lexer/lexer.l, src/parser/parser.y, Makefile | Construcción y tests/run_tests.sh | Cumplido para la implementación anfitriona. |
 | Lenguaje let, print, operadores, paréntesis, literales e identificadores, §4.2, p. 5 | lexer.l y parser.y | tests/run_tests.sh, tests/test_integral.sh | Cumplido según reglas léxicas documentadas. |
+| Alcance exclusivo del lenguaje original, §4.2 y 4.10, pp. 4–5 y 13 | lexer.l, parser.y | tests/test_led.sh | Parcial: Fase 9 añade led 13 on a petición del estudiante; el cambio informado del auxiliar no consta en el PDF original. |
 | Gramática no ambigua, sin directivas de precedencia, §4.2, p. 5 | parser.y, Makefile | build/parser.output; Bison trata conflictos como error | Cumplido: 0 conflictos shift/reduce y reduce/reduce en la generación verificada. |
 | AST propio para semántica y LLVM, §4.3, p. 6 | src/ast/, parser.y, semantic.c, codegen.c | tests/run_tests.sh, tests/semantic_types.c, tests/test_codegen.sh | Cumplido. |
 | Entorno global y tabla de símbolos, §4.4, p. 7 | src/semantic/semantic.c | tests/test_semantic.sh | Cumplido; entradas contienen nombre, tipo, ubicación y nodo. |

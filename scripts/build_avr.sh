@@ -30,8 +30,10 @@ avr-gcc -mmcu=atmega2560 -mdouble=64 -DF_CPU=16000000UL -std=c11 -Wall -Wextra -
     -I"$AVR_RUNTIME_DIR" -c "$AVR_RUNTIME_DIR/uart.c" -o "$tmp/uart.o"
 avr-gcc -mmcu=atmega2560 -mdouble=64 -DF_CPU=16000000UL -std=c11 -Wall -Wextra -Wpedantic -Os \
     -I"$AVR_RUNTIME_DIR" -c "$AVR_RUNTIME_DIR/main.c" -o "$tmp/main.o"
+avr-gcc -mmcu=atmega2560 -mdouble=64 -DF_CPU=16000000UL -std=c11 -Wall -Wextra -Wpedantic -Os \
+    -I"$AVR_RUNTIME_DIR" -c "$AVR_RUNTIME_DIR/led.c" -o "$tmp/led.o"
 avr-gcc -mmcu=atmega2560 -mdouble=64 "$tmp/program.o" "$tmp/format.o" \
-    "$tmp/uart.o" "$tmp/main.o" -o "$tmp/firmware.elf"
+    "$tmp/uart.o" "$tmp/main.o" "$tmp/led.o" -o "$tmp/firmware.elf"
 avr-nm --undefined-only "$tmp/firmware.elf" > "$tmp/undefined.txt"
 if [ -s "$tmp/undefined.txt" ]; then cat "$tmp/undefined.txt" >&2; exit 1; fi
 avr-objcopy -O ihex -R .eeprom "$tmp/firmware.elf" "$tmp/firmware.hex"

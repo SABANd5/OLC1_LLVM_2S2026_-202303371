@@ -12,8 +12,12 @@ decimales, variables declaradas, paréntesis y los operadores +, -, * y /:
 let a = 10;
 let b = a + 2;
 print b;
+led 13 on;
 ~~~
 
+La extensión LED acepta únicamente el pin 13 y el estado on. Se implementó a
+petición del estudiante, quien informó un cambio de demostración del auxiliar;
+el PDF original no la incluye. Las palabras led y on quedan reservadas.
 No existen conversiones implícitas entre entero y decimal. La documentación
 de la gramática y las limitaciones está en [DOCUMENTACION.md](DOCUMENTACION.md).
 
@@ -55,10 +59,18 @@ avr-objdump -f build/avr/demo/firmware.elf
 avr-size -C --mcu=atmega2560 build/avr/demo/firmware.elf
 ~~~
 
+Para el LED use un directorio nuevo:
+
+~~~sh
+sh scripts/build_avr.sh examples/hardware/led_mega.olc build/avr/led
+~~~
+
 El directorio de salida debe ser nuevo. El script emite ELF y HEX, usa
 -mdouble=64 y no carga una placa. El runtime oficial, la ABI definitiva, el
 procedimiento de carga y la salida serial dependen del docente. No se ha
 realizado ejecución física ni simulación.
+El procedimiento de carga, que requiere identificar placa y puerto y obtener
+confirmación previa, está en [Fase 9](docs/FASE_9_LED_ARDUINO.md).
 
 Consulte [guía de demostración](docs/GUIA_DEMOSTRACION.md),
 [guía de estudio](docs/GUIA_DEFENSA.md), [matriz de cumplimiento](docs/MATRIZ_CUMPLIMIENTO.md)

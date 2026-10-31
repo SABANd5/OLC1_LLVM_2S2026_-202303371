@@ -8,10 +8,12 @@ el análisis semántico verifica símbolos y tipos, y un recorrido del AST gener
 LLVM IR textual. El backend de LLVM transforma el IR para AVR. El compilador
 es un ejecutable anfitrión; el firmware para la placa es un resultado distinto.
 
-Solo se aceptan las instrucciones let y print, enteros, decimales,
+Se aceptan let y print, enteros, decimales,
 identificadores ya declarados, paréntesis y +, -, *, /. No se admiten
 conversiones implícitas, reasignaciones, ámbitos adicionales ni construcciones
-de control.
+de control. La extensión solicitada en Fase 9 añade únicamente
+led 13 on; para Mega 2560. No figura en el PDF original; el cambio de
+demostración fue comunicado por el estudiante y no se ha verificado por separado.
 
 ## Instrucciones para compilar y ejecutar
 
@@ -53,7 +55,7 @@ build/, bin/         artefactos generados, ignorados por Git
 
 ## Uso de Flex y Bison
 
-Flex reconoce las palabras exactas let y print, identificadores ASCII,
+Flex reconoce las palabras exactas let, print, led y on, identificadores ASCII,
 enteros, decimales, operadores y delimitadores. Un identificador empieza con
 letra ASCII o guion bajo; continúa con letras, dígitos o guion bajo. Un entero
 es una secuencia de dígitos; un decimal requiere dígitos antes y después del
@@ -71,6 +73,7 @@ liberan valores descartados al ocurrir errores. Make ejecuta Bison con
 programa      : instrucciones
 instrucciones : instrucciones instruccion | instruccion
 instruccion   : LET ID '=' expresion ';' | PRINT expresion ';'
+              | LED ENTERO ON ';'
 expresion     : expresion '+' termino | expresion '-' termino | termino
 termino       : termino '*' factor | termino '/' factor | factor
 factor        : ENTERO | DECIMAL | ID | '(' expresion ')'
@@ -87,7 +90,8 @@ instrucción, por lo que el archivo vacío es inválido.
 
 AstNode contiene clase, ubicación, tipo semántico, valor literal validado y
 enlace a la siguiente instrucción. Hay nodos programa, declaración, impresión,
-operación binaria, entero, decimal e identificador. El nodo binario guarda
+operación binaria, entero, decimal, identificador y LED. El nodo LED conserva
+el texto del pin y el estado; semántica solo acepta el texto 13 y on. El nodo binario guarda
 operador e hijos; un programa contiene una lista de instrucciones. Los
 paréntesis modifican la agrupación sin crear un nodo adicional. Los constructores
 reciben la propiedad de sus argumentos y ast_free libera el árbol.
@@ -121,6 +125,8 @@ las funciones de impresión ni fija target triple. El nombre olc_program es una
 elección provisional para integrar un punto de entrada; debe comprobarse con
 el runtime docente. La salida se escribe primero en un archivo temporal y se
 publica solo al completar la generación.
+Si existe una instrucción LED válida, declara y llama a
+void @olc_led13_on(); esta función del runtime configura DDRB7 y PORTB7.
 
 ## Arquitectura asignada
 
@@ -170,13 +176,15 @@ ha observado en una placa ni con el runtime docente.
 ## Pruebas y limitaciones
 
 La suite comprende 18 pruebas sintácticas, 26 semánticas, 34 de LLVM, 24 de
-AVR y 35 integrales. Las últimas verificaciones y el detalle están en
+AVR, 35 integrales y 17 de LED. Las verificaciones anteriores están en
 [docs/FASE_6.md](docs/FASE_6.md). LLVM acepta los ejemplos y el enlace
 provisional produce ELF y HEX; no se ha ejecutado simulación ni hardware.
 La división entera por cero y INT32_MIN dividido entre -1 producen
 comportamiento indefinido en LLVM; no se ha añadido validación semántica para
 ello. El runtime provisional imprime double con tres decimales y tiene límites
 documentados; no sustituye el runtime oficial.
+El LED y la carga física no han sido comprobados en placa; consulte
+[docs/FASE_9_LED_ARDUINO.md](docs/FASE_9_LED_ARDUINO.md).
 
 El PDF requiere un ensayo individual en PDF de máximo dos páginas, escrito por
 el estudiante sin IA generativa. Está pendiente de incorporación por su autor.

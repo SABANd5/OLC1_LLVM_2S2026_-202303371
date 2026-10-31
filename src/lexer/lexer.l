@@ -30,6 +30,8 @@ static char *copy_text(const char *text, size_t length)
 %%
 "let"                  { return LET; }
 "print"                { return PRINT; }
+"led"                  { return LED; }
+"on"                   { return ON; }
 [A-Za-z_][A-Za-z_0-9]* { yylval.text = copy_text(yytext, yyleng); return ID; }
 [0-9]+\.[0-9]+         { yylval.text = copy_text(yytext, yyleng); return DECIMAL; }
 [0-9]+                 { yylval.text = copy_text(yytext, yyleng); return ENTERO; }

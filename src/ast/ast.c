@@ -35,6 +35,15 @@ AstNode *ast_print_statement(AstNode *value, SourceLocation location)
     return node;
 }
 
+AstNode *ast_led_on(char *pin, SourceLocation pin_location, SourceLocation location)
+{
+    AstNode *node = new_node(AST_LED, location);
+    node->as.led.pin = pin;
+    node->as.led.pin_location = pin_location;
+    node->as.led.on = 1;
+    return node;
+}
+
 AstNode *ast_binary(char op, AstNode *left, AstNode *right, SourceLocation location)
 {
     AstNode *node = new_node(AST_BINARY, location);
@@ -84,6 +93,7 @@ static void print_tree(const AstNode *node, FILE *out, int depth)
         case AST_INTEGER: fprintf(out, "Entero %s\n", node->as.text); break;
         case AST_DECIMAL: fprintf(out, "Decimal %s\n", node->as.text); break;
         case AST_IDENTIFIER: fprintf(out, "Identificador %s\n", node->as.text); break;
+        case AST_LED: fprintf(out, "Led %s %s\n", node->as.led.pin, node->as.led.on ? "on" : "invalido"); break;
         }
     }
 }
@@ -108,6 +118,7 @@ void ast_free(AstNode *node)
         case AST_INTEGER: case AST_DECIMAL: case AST_IDENTIFIER:
             free(node->as.text);
             break;
+        case AST_LED: free(node->as.led.pin); break;
         }
         free(node);
         node = next;

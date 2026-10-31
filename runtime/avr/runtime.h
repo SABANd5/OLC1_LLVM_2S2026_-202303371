@@ -5,4 +5,5 @@ void uart_init(void);
 void uart_putc(char c);
 void print_i32(int32_t value);
 void print_f64(double value);
+void olc_led13_on(void);
 #endif

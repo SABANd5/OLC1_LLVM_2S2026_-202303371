@@ -62,5 +62,10 @@ explicaciones técnicas del proyecto, no sustituyen la comprensión individual.
 22. **¿Qué falta verificar?** La ABI y entrada del runtime docente, el enlace
     con ese soporte, la carga, la salida serial y el funcionamiento en placa o
     simulador. Los tamaños estáticos no incluyen el consumo dinámico de pila.
+23. **¿Cómo llega led 13 on al pin?** Flex y Bison reconocen la instrucción;
+    semántica valida el pin y el generador emite una llamada a olc_led13_on.
+    runtime/avr/led.c configura DDRB7 y PORTB7, correspondiente a D13/PB7 en
+    Mega 2560. La funcionalidad física aún requiere prueba y la extensión no
+    aparece en el PDF original.
 
 Para comandos de práctica y evidencia consulte [GUIA_DEMOSTRACION.md](GUIA_DEMOSTRACION.md).

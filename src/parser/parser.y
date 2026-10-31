@@ -17,7 +17,7 @@ AstNode *ast_root = NULL;
 %define parse.error detailed
 %define parse.lac full
 %union { char *text; AstNode *node; }
-%token LET PRINT INVALID
+%token LET PRINT LED ON INVALID
 %token <text> ID ENTERO DECIMAL
 %type <node> programa instrucciones instruccion expresion termino factor
 %destructor { free($$); } <text>
@@ -28,7 +28,8 @@ programa: instrucciones { ast_root = ast_program($1, LOC(@$)); $$ = NULL; } ;
 instrucciones: instrucciones instruccion { $$ = ast_append($1, $2); }
              | instruccion { $$ = $1; } ;
 instruccion: LET ID '=' expresion ';' { $$ = ast_let($2, $4, LOC(@$)); $$->as.declaration.name_location = LOC(@2); }
-           | PRINT expresion ';' { $$ = ast_print_statement($2, LOC(@$)); } ;
+           | PRINT expresion ';' { $$ = ast_print_statement($2, LOC(@$)); }
+           | LED ENTERO ON ';' { $$ = ast_led_on($2, LOC(@2), LOC(@$)); } ;
 expresion: expresion '+' termino { $$ = ast_binary('+', $1, $3, LOC(@$)); $$->as.binary.op_location = LOC(@2); }
          | expresion '-' termino { $$ = ast_binary('-', $1, $3, LOC(@$)); $$->as.binary.op_location = LOC(@2); }
          | termino { $$ = $1; } ;

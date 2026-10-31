@@ -120,6 +120,14 @@ int semantic_analyze(AstNode *program, const char *filename)
             if (!old && type != TYPE_ERROR) insert(&ctx, s, type);
         } else if (s->kind == AST_PRINT) {
             s->type = expression(&ctx, s->as.print.value);
+        } else if (s->kind == AST_LED) {
+            s->as.led.validated = 0;
+            if (strcmp(s->as.led.pin, "13") != 0 || s->as.led.on != 1) {
+                error(&ctx, s->as.led.pin_location, "solo se admite led 13 on");
+                s->type = TYPE_ERROR;
+            } else {
+                s->as.led.validated = 1;
+            }
         }
     }
     while (ctx.symbols) {
