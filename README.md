@@ -69,9 +69,4 @@ El directorio de salida debe ser nuevo. El script emite ELF y HEX, usa
 -mdouble=64 y no carga una placa. El runtime oficial, la ABI definitiva, el
 procedimiento de carga y la salida serial dependen del docente. No se ha
 realizado ejecución física ni simulación.
-El procedimiento de carga, que requiere identificar placa y puerto y obtener
-confirmación previa, está en [Fase 9](docs/FASE_9_LED_ARDUINO.md).
 
-Consulte [guía de demostración](docs/GUIA_DEMOSTRACION.md),
-[guía de estudio](docs/GUIA_DEFENSA.md), [matriz de cumplimiento](docs/MATRIZ_CUMPLIMIENTO.md)
-y [pendientes del docente](docs/PENDIENTES_DOCENTE.md).
